@@ -1,10 +1,9 @@
-<!doctype html>
-<html>
+{% extends "layout.html" %}
+{% block body %}
 
 <head>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 <title>Bask</title>
+
 <script src="https://maps.googleapis.com/maps/api/js"></script>
 <script>
   function initialize() {
@@ -21,20 +20,7 @@
 </head>
 
 <body>
-<div class="container">
 
-  <div class="header">
-
-    <nav>
-      <ul class="nav nav-pills pull-right">
-        <li role="presentation" class="active"><a href="#">Home</a></li>
-        <li role="presentation"><a href="#">About</a></li>
-        <li role="presentation"><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-	<img src="{{ url_for('static', filename='logo.png') }}">
-    <!-- <h3 class="text-muted">Project name</h3> -->
-  </div>
 <hr>
       <div class="jumbotron">
         <h1>Jumbotron heading</h1>
@@ -50,3 +36,5 @@ Hello World
 </div> <!-- /container -->
 </body>
 </html>
+
+{% endblock %}

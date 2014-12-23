@@ -1,12 +1,24 @@
 <!doctype html>
-<title>Bask</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}">
-<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">-->
-<div class="container">
-<div class="row">
-<div class="col-md-offset-4 col-md-4 box">
-  <h1>Flaskr</h1>
 
+<head>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<title>Bask</title>
+</head>
+
+<div class="container">
+
+  <div class="header">
+
+    <nav>
+      <ul class="nav nav-pills pull-right">
+        <li role="presentation" class="active"><a href="#">Home</a></li>
+        <li role="presentation"><a href="#">About</a></li>
+        <li role="presentation"><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+	<img src="{{ url_for('static', filename='logo.png') }}">
+    <!-- <h3 class="text-muted">Project name</h3> -->
   </div>
-</div>
-</div>
+  
+    {% block body %}{% endblock %}
