@@ -1,6 +1,13 @@
-drop table if exists entries;
-create table entries (
+drop table if exists event;
+create table event (
   id integer primary key autoincrement,
-  title text not null,
-  text text not null
+  band_id integer,
+  description text,
+  event_date date,
+  event_time time,
+  address text,
+  minors boolean,
+  cover smallint,
+  lat text,
+  lng text
 );

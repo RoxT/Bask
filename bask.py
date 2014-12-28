@@ -3,6 +3,7 @@ import sqlite3
 from flask import Flask, render_template, request, session, g, redirect, url_for, \
     abort, render_template, flash
 from contextlib import closing
+from datetime import datetime
 
 # configuration
 DATABASE = '/bask.db'
@@ -80,21 +81,27 @@ def logout():
     return redirect(url_for('band'))
 
 
-# Band entries
+# Band event
 
 @app.route('/band')
 def band():
-    cursor = g.db.execute('select title, text from entries order by id desc')
-    entries = [dict(title=row[0], text=row[1]) for row in cursor.fetchall()]
-    return render_template('band.html', entries=entries)
+    cursor = g.db.execute('select * from event order by event_date desc')
+    events = [dict(event_id=row[0], description=row[2],
+                   # parse date from sqlite 'date' (actually a string), then convert to readable format
+                   event_date=datetime.strptime(row[3], '%Y-%m-%d').strftime('%A %b %d'),
+                   # see docs on strftime in python and sqlite3 for formatting
+                   event_time=datetime.strptime(row[4], '%H:%M').strftime('%I:%M %p'),
+                   minors=row[6], cover=row[7]) for row in cursor.fetchall()]
+    return render_template('band.html', events=events)
 
 
 @app.route('/add', methods=['POST'])
 def add_entry():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('insert into entries (title, text) values (?, ?)',
-                 [request.form['title'], request.form['text']])
+    g.db.execute('insert into event (description, event_date, event_time, minors, cover) values (?, ?, ?, ?, ?)',
+                 [request.form['description'], request.form['event_date'], request.form['event_time'],
+                  request.form['minors'], request.form['cover']])
     g.db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('band'))

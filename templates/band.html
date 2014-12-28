@@ -4,6 +4,9 @@
 
 <head> 
 <title>Bask</title>
+<script>
+
+</script>
 
 </head>
 <body>
@@ -17,20 +20,39 @@
 {% if session.logged_in %}
 	<form action="{{ url_for('add_entry') }}" method=post class=add-entry>
 		<dl>
-			<dt>Title:
-			<dd><input type=text size=30 name=title>
-			<dt>Text:
-			<dd><textarea name=text rows=5 cols=40></textarea>
-			<dd><input type=submit value=Share>
+			<dt>Date:
+			<dd><input type=date name=event_date>
+
+			<dt>Time:
+			<dd><input type=time name=event_time>
+
+			<dt>Short Description:
+			<dd><textarea name=description rows=5 cols=40></textarea>
+
+			<dt>Minors Allowed?</dt>
+			<dd><input type=checkbox name=minors value="true"></dd>
+
+			<dt>Cover?</dt>
+			<dd><input type=checkbox value="true"></dd>
+			<dd>$<input type=number name=cover></dd>
+
+
+
+			<dd><input type=submit value=Submit>
 		</dl>
 	</form>
 {% endif %}
 
-<ul class=entries>
-{% for entry in entries %}
-	<li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+<ul class=events>
+{% for event in events %}
+	<li><h3>{{ event.description|safe }}</h3></li>
+	<li>{{ event.event_id }}</li>
+	<li>{{ event.event_date }} at {{ event.event_time }} </li>
+	{% if event.minors is not defined %}<li>No Minors</li>{% endif %}
+	{% if event.cover is defined %}<li>Cover: ${{ event.cover }}</li>
+	{% else %} <li>No Cover</li> {% endif %}
 {% else %}
-	<li><em>Unbelievable. No entries here so far</em>
+	<li><em>Unbelievable. No events here so far</em>
 {% endfor %}
 </ul>
 
