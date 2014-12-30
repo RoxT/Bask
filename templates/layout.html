@@ -24,7 +24,7 @@
   </div>
 <hr>  
 {% for message in get_flashed_messages() %}
-	<div class=flash>{{ message }}</div>
+	<div class="flash alert alert-success" role="alert"><strong><h4>{{ message }}</h4></strong></div>
 {% endfor %}
 
 <div class="container">
