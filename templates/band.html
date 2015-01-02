@@ -29,9 +29,6 @@
 			<dt>Short Description:
 			<dd><textarea name=description rows=5 cols=40></textarea>
 
-			<dt>Minors Allowed?</dt>
-			<dd><input type=checkbox name=minors value="true"></dd>
-
 			<dt>Cover?</dt>
 			<dd><input type=checkbox value="true"></dd>
 			<dd>$<input type=number name=cover></dd>
@@ -52,7 +49,6 @@
 	<li><h3>{{ event.description|safe }}</h3></li>
 	<li class="list-group-item">{{ event.event_id }}</li>
 	<li class="list-group-item">{{ event.event_date }} at {{ event.event_time }} </li>
-	{% if event.minors is not defined %}<li class="list-group-item">No Minors</li>{% endif %}
 	{% if event.cover is defined %}<li class="list-group-item">Cover: ${{ event.cover }}</li>
 	{% else %} <li class="list-group-item">No Cover</li> {% endif %}
 	{% if event.lat is defined %}<li class="list-group-item">{{ event.lat }}</li>{% endif %}
@@ -61,6 +57,7 @@
 	<li class="list-group-item"><em>Unbelievable. No events here so far</em>
 {% endfor %}
 </ul>
+<br>
 
 </div> <!-- /container -->
 </body>
