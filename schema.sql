@@ -1,8 +1,7 @@
 drop table if exists event;
 create table event (
   id integer primary key autoincrement,
-  band_id integer,
-  description text,
+  description text not null,
   event_date date,
   event_time time,
   address text,

@@ -36,7 +36,11 @@
 			<dd><input type=checkbox value="true"></dd>
 			<dd>$<input type=number name=cover></dd>
 
+			<dt>Latitude:</dt>
+			<dd><textarea name=lat rows=1 cols=40></textarea></dd>
 
+			<dt>Longitude:</dt>
+			<dd><textarea name=lng rows=1 cols=40></textarea></dd>
 
 			<dd><input type=submit value=Submit>
 		</dl>
@@ -51,6 +55,8 @@
 	{% if event.minors is not defined %}<li class="list-group-item">No Minors</li>{% endif %}
 	{% if event.cover is defined %}<li class="list-group-item">Cover: ${{ event.cover }}</li>
 	{% else %} <li class="list-group-item">No Cover</li> {% endif %}
+	{% if event.lat is defined %}<li class="list-group-item">{{ event.lat }}</li>{% endif %}
+	{% if event.lng is defined %}<li class="list-group-item">{{ event.lng }}</li>{% endif %}
 {% else %}
 	<li class="list-group-item"><em>Unbelievable. No events here so far</em>
 {% endfor %}

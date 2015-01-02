@@ -6,6 +6,16 @@
 
 <script src="https://maps.googleapis.com/maps/api/js"></script>
 <script>
+
+  var map;
+  function addMarker(description, lat, lng) {
+  		var marker = new google.maps.Marker({
+		position: new google.maps.LatLng(lat, lng),
+		map: map,
+		title: description
+		});
+  }
+
   function initialize() {
 	var mapCanvas = document.getElementById('map-canvas');
 	var mapOptions = {
@@ -13,9 +23,19 @@
 		zoom: 12,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
-	var map = new google.maps.Map(mapCanvas, mapOptions);
+	map = new google.maps.Map(mapCanvas, mapOptions);
+
+	var description;
+	var lat;
+	var lng;
+	{% for event in events %}
+		description="{{ event.description|safe }}";
+		lat={{ event.lat|safe }};
+		lng={{ event.lng|safe }};
+		addMarker(description, lat, lng);
+	{% endfor %}
   }
-  	google.maps.event.addDomListener(window, 'load', initialize);
+  google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 </head>
 
@@ -24,7 +44,12 @@
 </div> <!-- /container -->
 <div class="container-fluid">
 	<div id="map-canvas"></div>	  
-	  
+
+	<ul>
+		{% for event in events %}
+			<li>{{ event.description }} {{ event.event_date }} {{ event.event_time }} {{ event.lat }} {{ event.lng }} </li>
+		{% endfor %}
+	</ul>
 	Hello World  
 
 </div> <!-- /container -->
