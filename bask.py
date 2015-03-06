@@ -108,10 +108,10 @@ def band():
 def add_entry():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('insert into event (description, event_date, event_time, minors, cover, lat, lng) '
-                 'values (?, ?, ?, ?, ?, ?, ?)',
+    g.db.execute('insert into event (description, event_date, event_time, cover, lat, lng) '
+                 'values (?, ?, ?, ?, ?, ?)',
                  [request.form['description'], request.form['event_date'], request.form['event_time'],
-                  request.form['minors'], request.form['cover'], request.form['lat'], request.form['lng']])
+                  request.form['cover'], request.form['lat'], request.form['lng']])
     g.db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('band'))

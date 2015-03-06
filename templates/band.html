@@ -4,18 +4,56 @@
 
 <head> 
 <title>Bask</title>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
 <script>
+    var placeSearch, autocomplete;
+
+	function initialize() {
+		//document.getElementByName('lat').value = "Hello World";
+  		// Create the autocomplete object, restricting the search
+  		// to geographical location types.
+  		autocomplete = new google.maps.places.Autocomplete(
+      		/** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
+      		{ types: [] });
+  		// When the user selects an address from the dropdown,
+  		// populate the address fields in the form.
+
+  		google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    		fillInAddress();
+		});
+	}
+
+
+	function fillInAddress() {
+  		// Get the place details from the autocomplete object.
+  		var place = autocomplete.getPlace();
+
+    	//var lat = ;
+    	var lng = place.geometry.location.lng();
+		document.getElementById("lat").value = place.geometry.location.lat();
+		document.getElementById("lng").value = lng;
+	}
+
+	// Bias the autocomplete object to the user's geographical location,
+	// as supplied by the browser's 'navigator.geolocation' object.
+	function geolocate() {
+  		if (navigator.geolocation) {
+    		navigator.geolocation.getCurrentPosition(function(position) {
+      			var geolocation = new google.maps.LatLng(
+          			position.coords.latitude, position.coords.longitude);
+      			var circle = new google.maps.Circle({
+        			center: geolocation,
+        			radius: position.coords.accuracy
+      			});
+      			autocomplete.setBounds(circle.getBounds());
+    		});
+  		}
+	}
 
 </script>
 
 </head>
-<body>
-
-<ul class="list-group">
-	<li class="list-group-item">Item One</li>
-	<li class="list-group-item">Item Two</li>
-	<li class="list-group-item">Item Three</li>
-</ul>
+<body onload="initialize()">
 
 {% if session.logged_in %}
 	<form action="{{ url_for('add_entry') }}" method=post class=add-entry>
@@ -30,14 +68,17 @@
 			<dd><textarea name=description rows=5 cols=40></textarea>
 
 			<dt>Cover?</dt>
-			<dd><input type=checkbox value="true"></dd>
 			<dd>$<input type=number name=cover></dd>
 
+			<dt>Location or Street Address</dt>
+			<dd><input id="autocomplete" placeholder="Ex. Unicorn Pub"
+					   onFocus="geolocate()" type="text" name=address></dd>
+
 			<dt>Latitude:</dt>
-			<dd><textarea name=lat rows=1 cols=40></textarea></dd>
+			<dd><textarea name=lat rows=1 cols=40 id="lat"></textarea></dd>
 
 			<dt>Longitude:</dt>
-			<dd><textarea name=lng rows=1 cols=40></textarea></dd>
+			<dd><textarea name=lng rows=1 cols=40 id="lng"></textarea></dd>
 
 			<dd><input type=submit value=Submit>
 		</dl>
@@ -57,6 +98,7 @@
 	<li class="list-group-item"><em>Unbelievable. No events here so far</em>
 {% endfor %}
 </ul>
+<br>
 <br>
 
 </div> <!-- /container -->

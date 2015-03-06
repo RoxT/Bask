@@ -16,3 +16,7 @@ li.list-group-item {
 li {
         list-style-type: none;
 }
+
+#autocomplete {
+        width: 300px;
+}
